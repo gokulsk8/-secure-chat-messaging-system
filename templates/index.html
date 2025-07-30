@@ -1,0 +1,68 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Chat – Cipher Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Secure Chat Cipher Tool</h1>
+
+        <form method="POST">
+            <label for="message">🔸 Message:</label>
+            <textarea name="message" id="message" placeholder="Enter your message..." required></textarea>
+
+            <label for="mode">🔸 Mode:</label>
+            <div class="mode">
+                <input type="radio" id="encrypt" name="mode" value="encrypt" checked>
+                <label for="encrypt">Encrypt</label>
+                <input type="radio" id="decrypt" name="mode" value="decrypt">
+                <label for="decrypt">Decrypt</label>
+            </div>
+
+            <label for="cipher">🔸 Select Cipher:</label>
+            <select name="cipher" id="cipher" required>
+                <option value="rail_fence">Rail Fence Cipher</option>
+                <option value="row_transposition">Row Transposition Cipher</option>
+            </select>
+
+            <div id="rail-fence-settings">
+                <label for="rails">🔸 Number of Rails (for Rail Fence):</label>
+                <input type="number" name="rails" id="rails" min="2" value="3">
+            </div>
+
+            <div id="row-transposition-settings" style="display: none;">
+                <label for="key">🔸 Key (for Row Transposition):</label>
+                <input type="text" name="key" id="key" placeholder="Enter key like 4312">
+            </div>
+
+            <button type="submit">🔁 Run Cipher</button>
+        </form>
+
+        {% if result %}
+        <div class="result-box">
+            <h3>🧾 Output:</h3>
+            <p>{{ result }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        const cipherSelect = document.getElementById("cipher");
+        const railSettings = document.getElementById("rail-fence-settings");
+        const rowSettings = document.getElementById("row-transposition-settings");
+
+        cipherSelect.addEventListener("change", function() {
+            if (this.value === "rail_fence") {
+                railSettings.style.display = "block";
+                rowSettings.style.display = "none";
+            } else if (this.value === "row_transposition") {
+                railSettings.style.display = "none";
+                rowSettings.style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
